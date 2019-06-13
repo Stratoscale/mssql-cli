@@ -1,0 +1,4 @@
+FROM rackattack-nas.dc1:5000/dev-base:63d2ee13b5106f7ab29d50247b568feaf84ba145
+
+COPY requirements-dev.txt /tmp/requirements-dev.txt
+RUN pip install --extra-index http://strato-pypi.dc1:5002/strato/dev --no-cache-dir -r /tmp/requirements-dev.txt

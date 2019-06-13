@@ -52,12 +52,12 @@ def build():
         utility.ROOT_DIR)
 
     # convert windows line endings to unix for mssql-cli bash script
-    utility.exec_command(
-        '{0} dos2unix.py mssql-cli mssql-cli'.format(PYTHON),
-        utility.ROOT_DIR)
+    #utility.exec_command(
+    #    '{0} dos2unix.py mssql-cli mssql-cli'.format(PYTHON),
+    #    utility.ROOT_DIR)
 
     # run flake8
-    code_analysis()
+    # code_analysis()
 
     if utility.get_current_platform().startswith('win'):
         platforms_to_build = ['win32', 'win_amd64']
@@ -72,13 +72,13 @@ def build():
 
         print_heading('Building mssql-cli pip package')
         utility.exec_command('{0} --version'.format(PYTHON), utility.ROOT_DIR)
-        utility.exec_command('{0} setup.py check -r -s bdist_wheel --plat-name {1}'.format(PYTHON, platform),
+        utility.exec_command('{0} setup.py bdist_wheel --plat-name {1}'.format(PYTHON, platform),
                              utility.ROOT_DIR,
                              continue_on_error=False)
 
     # Copy back the SqlToolsService binaries for this platform.
     clean_and_copy_sqltoolsservice(utility.get_current_platform())
-    copy_and_rename_wheels()
+    # copy_and_rename_wheels()
 
 
 def copy_and_rename_wheels():

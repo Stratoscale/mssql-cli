@@ -1,0 +1,2 @@
+pips:
+ - dist/mssql_cli*.whl

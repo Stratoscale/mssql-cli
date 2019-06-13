@@ -1,0 +1,6 @@
+registry: rackattack-nas.dc1:5000
+build-container-image: mssql-cli-build
+
+make:
+    makefile: Makefile.strato
+

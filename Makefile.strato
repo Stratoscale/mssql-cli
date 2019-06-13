@@ -1,0 +1,8 @@
+all: dist/mssql-cli-*.tar.gz
+
+dist/mssql-cli-*.tar.gz: setup.py build.py
+	rm -rf $@
+	python build.py build
+
+clean:
+	rm -rf build/ dist/ mssql_cli.egg-info/
