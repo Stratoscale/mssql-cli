@@ -271,35 +271,6 @@ class MssqlCli(object):
             sys.exit(1)
 
     def handle_editor_command(self, cli, document):
-        r"""
-        Editor command is any query that is prefixed or suffixed
-        by a '\e'. The reason for a while loop is because a user
-        might edit a query multiple times.
-        For eg:
-        "select * from \e"<enter> to edit it in vim, then come
-        back to the prompt with the edited query "select * from
-        blah where q = 'abc'\e" to edit it again.
-        :param cli: CommandLineInterface
-        :param document: Document
-        :return: Document
-        """
-        # FIXME: using application.pre_run_callables like this here is not the best solution.
-        # It's internal api of prompt_toolkit that may change. This was added to fix #668.
-        # We may find a better way to do it in the future.
-        saved_callables = cli.application.pre_run_callables
-        while special.editor_command(document.text):
-            filename = special.get_filename(document.text)
-            query = (special.get_editor_query(document.text) or
-                     self.get_last_query())
-            sql, message = special.open_external_editor(filename, sql=query)
-            if message:
-                # Something went wrong. Raise an exception and bail.
-                raise RuntimeError(message)
-            cli.current_buffer.document = Document(sql, cursor_position=len(sql))
-            cli.application.pre_run_callables = []
-            document = cli.run()
-            continue
-        cli.application.pre_run_callables = saved_callables
         return document
 
     def execute_command(self, text, query):

@@ -38,8 +38,8 @@ Microsoft Privacy statement: https://privacy.microsoft.com/privacystatement
 
 def run_cli_with(options):
 
-    if create_config_dir_for_first_use():
-        display_telemetry_message()
+    # if create_config_dir_for_first_use():
+    #    display_telemetry_message()
 
     display_version_message(options)
 
@@ -51,6 +51,9 @@ def run_cli_with(options):
 
     mssqlcli = MssqlCli(options)
     mssqlcli.connect_to_database()
+
+    conn = mssqlcli.mssqlcliclient_main
+    print ("Server Version: %s:%s" % (conn.server_edition, conn.server_version))
 
     telemetry_session.set_server_information(mssqlcli.mssqlcliclient_main)
     mssqlcli.run()

@@ -30,7 +30,7 @@ decorators.is_diagnostics_mode = telemetry_core.in_diagnostic_mode
 def _user_agrees_to_telemetry(func):
     @wraps(func)
     def _wrapper(*args, **kwargs):
-        user_opted_out = os.environ.get(MSSQL_CLI_TELEMETRY_OPT_OUT, False)
+        user_opted_out = os.environ.get(MSSQL_CLI_TELEMETRY_OPT_OUT, True)
         if user_opted_out in ['True', 'true', '1']:
             return
         return func(*args, **kwargs)

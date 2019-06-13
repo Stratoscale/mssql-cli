@@ -321,41 +321,6 @@ def get_editor_query(sql):
     return sql
 
 
-@export
-def open_external_editor(filename=None, sql=None):
-    """
-    Open external editor, wait for the user to type in his query,
-    return the query.
-    :return: list with one tuple, query as first element.
-    """
-
-    message = None
-    filename = filename.strip().split(' ', 1)[0] if filename else None
-
-    sql = sql or ''
-    MARKER = '# Type your query above this line.\n'
-
-    # Populate the editor buffer with the partial sql (if available) and a
-    # placeholder comment.
-    query = click.edit(u'{sql}\n\n{marker}'.format(sql=sql, marker=MARKER),
-                       filename=filename, extension='.sql')
-
-    if filename:
-        try:
-            query = read_from_file(filename)
-        except IOError:
-            message = 'Error reading file: %s.' % filename
-
-    if query is not None:
-        query = query.split(MARKER, 1)[0].rstrip('\n')
-    else:
-        # Don't return None for the caller to deal with.
-        # Empty string is ok.
-        query = sql
-
-    return (query, message)
-
-
 def read_from_file(path):
     with io.open(expanduser(path), encoding='utf-8') as f:
         contents = f.read()
